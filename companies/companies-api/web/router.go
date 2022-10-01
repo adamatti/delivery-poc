@@ -67,8 +67,8 @@ func newRouter(routes Routes) *mux.Router {
 	return router
 }
 
-func StartServer() {
-	router := newRouter(serverRoutes)
+func StartServer(appRoutes Routes) {
+	router := newRouter(append(serverRoutes,appRoutes...))
 	s := getServerObj(router)
 
 	log.Infof("Starting up on %d...", cfg.ServicePort)
