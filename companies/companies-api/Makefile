@@ -1,3 +1,5 @@
+DOCKER_TAG=companies:local
+
 .DEFAULT_GOAL := help
 
 .PHONY: help
@@ -20,3 +22,18 @@ run: lint ## run app
 
 build: lint ## build binary
 	@go build -o app
+
+docker-build: ## build docker image
+	@docker build . -t $(DOCKER_TAG)
+
+docker-sh: docker-build ## sh on docker image
+	@docker run -it --rm --entrypoint /bin/sh $(DOCKER_TAG)
+
+docker-run: docker-build ## run docker image
+	@docker run -it --rm -p 80:80 $(DOCKER_TAG)
+
+docker-build-builder:
+	@docker build . -t $(DOCKER_TAG)-builder --target builder
+
+docker-sh-builder: docker-build-builder
+	@docker run -it --rm --entrypoint /bin/sh $(DOCKER_TAG)-builder
