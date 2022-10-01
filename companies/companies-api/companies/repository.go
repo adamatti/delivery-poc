@@ -34,26 +34,26 @@ func (company Company) delete(){
 
 func buildByName(name string) *Company {
 	return &Company{
-		Id: pointerUuid(uuid.New()),
+		Id: pointer(uuid.New()),
 		Name: &name,
-		CreatedAt: pointerDate(time.Now()),
-		UpdatedAt: pointerDate(time.Now()),
+		CreatedAt: pointer(time.Now()),
+		UpdatedAt: pointer(time.Now()),
 	}
 }
 
 func (company *Company) update(provided Company) Company {
 	company.Name = provided.Name
-	company.UpdatedAt = pointerDate(time.Now())
+	company.UpdatedAt = pointer(time.Now())
 
 	return *company
 }
 
 func (company Company) insert() Company {
 	if company.Id == nil {
-		company.Id = pointerUuid(uuid.New())
+		company.Id = pointer(uuid.New())
 	}
-	company.CreatedAt = pointerDate(time.Now())
-	company.UpdatedAt = pointerDate(time.Now())
+	company.CreatedAt = pointer(time.Now())
+	company.UpdatedAt = pointer(time.Now())
 
 	companies = append(companies, &company)
 	return company

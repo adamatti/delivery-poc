@@ -12,16 +12,8 @@ import (
 )
 
 
-func pointerString(str string) *string{
-	return &str
-}
-
-func pointerDate(time time.Time) *time.Time{
-	return &time
-}
-
-func pointerUuid(uuid uuid.UUID) *uuid.UUID {
-	return &uuid
+func pointer[O string | time.Time | uuid.UUID](o O) *O {
+	return &o
 }
 
 // FIXME add additional properties like count, current page, next page
