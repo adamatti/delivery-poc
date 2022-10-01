@@ -10,6 +10,12 @@ var AppRoutes = web.Routes{
 		HandlerFunc: listCompaniesHandler,
 	},
 	web.Route{
+		Name:        "Get one Company by id",
+		Method:      "GET",
+		Pattern:     "/companies/{id:.*}",
+		HandlerFunc: getCompanyHandler,
+	},
+	web.Route{
 		Name:        "Create Company",
 		Method:      "POST",
 		Pattern:     "/companies",

@@ -1,27 +1,37 @@
 package companies
 
 import (
-	"net/http"
-	"time"
-
+	"net/http"	
 	"github.com/adamatti/delivery-poc/companies/web"
-	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-
 	log "github.com/sirupsen/logrus"
 )
 
-
-func pointer[O string | time.Time | uuid.UUID](o O) *O {
-	return &o
+type ListCompaniesResponse struct {
+	Data []Company `json:"data"`
 }
 
 // FIXME add additional properties like count, current page, next page
 func listCompaniesHandler(w http.ResponseWriter, r *http.Request) {
-	res:=make(map[string][]*Company)
-	res["data"] = companies
-
+	res := ListCompaniesResponse{Data: list()}
 	web.JsonResponse(w, r, res)
+}
+
+func getCompanyHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if (!ok) {
+		web.SendError(w, r, http.StatusInternalServerError, "Unable to parse id")
+		return
+	}
+
+	company:= findById(id)
+	if company == nil {
+		web.SendError(w, r, http.StatusNotFound, "Company not found")
+		return
+	}
+
+	web.JsonResponse(w, r, company)
 }
 
 func createCompanyHandler(w http.ResponseWriter, r *http.Request) {

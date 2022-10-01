@@ -37,3 +37,9 @@ docker-build-builder:
 
 docker-sh-builder: docker-build-builder
 	@docker run -it --rm --entrypoint /bin/sh $(DOCKER_TAG)-builder
+
+dc-up-dependencies: ## start docker-compose dependencies
+	@docker-compose up -d companies-db
+
+dc-stop: ## stop docker compose containers
+	@docker-compose stop -t 0
