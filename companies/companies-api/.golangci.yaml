@@ -1,0 +1,4 @@
+linters:
+  disable:
+    # FIXME enable it again in future
+    - unused
