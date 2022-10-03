@@ -1,17 +1,9 @@
 package companies
 
 import (
-	"time"
-
 	"github.com/adamatti/delivery-poc/companies/database"
 	"github.com/google/uuid"
 )
-
-var companies = []*Company{
-	buildByName("Pizzaria"),
-	buildByName("Burguer King"),
-	buildByName("Mc Donalds"),
-}
 
 func list() []Company {
 	var companies []Company
@@ -31,15 +23,6 @@ func findById(id string) *Company {
 func (company Company) delete(){
 	// This is a soft delete (gorm functionality)
 	database.GetInstance().Delete(&company)
-}
-
-func buildByName(name string) *Company {
-	return &Company{
-		Id: pointer(uuid.New()),
-		Name: &name,
-		CreatedAt: pointer(time.Now()),
-		UpdatedAt: pointer(time.Now()),
-	}
 }
 
 func (company *Company) update(provided Company) *Company {	

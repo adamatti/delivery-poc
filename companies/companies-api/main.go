@@ -12,8 +12,6 @@ import (
 
 var cfg = config.Instance
 
-type Entities []interface{}
-
 func main() {
 	log.Debug("Starting app")
 
@@ -24,10 +22,10 @@ func main() {
 		DSN: "host=localhost user=companies password=companies dbname=companies port=5432 sslmode=disable TimeZone=America/Sao_Paulo",
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
 	}
-	entities:= Entities{
+	entities:= database.Entities{
 		companies.Company{},
 	}
-	database.StartDatabase(entities, config)
+	database.StartDatabase(entities, postgres.New(config))
 
 	// Web layer
 	appRoutes:= companies.AppRoutes

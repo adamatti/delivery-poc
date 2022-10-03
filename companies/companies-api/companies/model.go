@@ -17,5 +17,15 @@ type Company struct {
 }
 
 func (company Company) String() string {
-	return fmt.Sprintf("%s - %s", company.Id.String(), *company.Name)
+	var companyId string
+	if (company.Id != nil) {
+		companyId = company.Id.String()
+	}
+
+	var companyName string
+	if (company.Name != nil) {
+		companyName = *company.Name
+	}
+
+	return fmt.Sprintf("[id: %s, name: %s]", companyId, companyName)
 }

@@ -2,10 +2,11 @@ package database
 
 import (
 	"gorm.io/gorm"
-	"gorm.io/driver/postgres"
 )
 
 var instance *gorm.DB
+
+type Entities []interface{}
 
 // FIXME this is a pet project, in a real one must think in a clever/robust way
 func runMigrations (entities []interface{}, db *gorm.DB) {
@@ -17,10 +18,8 @@ func runMigrations (entities []interface{}, db *gorm.DB) {
 	}
 }
 
-func StartDatabase(entities []interface{}, config postgres.Config) *gorm.DB {
-	connection:= postgres.New(config)
-
-	db, err := gorm.Open(connection, &gorm.Config{})
+func StartDatabase(entities []interface{}, dialector gorm.Dialector) *gorm.DB {
+	db, err := gorm.Open(dialector, &gorm.Config{})
 	if err != nil {
     panic("failed to connect database")
   }
@@ -32,5 +31,8 @@ func StartDatabase(entities []interface{}, config postgres.Config) *gorm.DB {
 }
 
 func GetInstance() *gorm.DB {
+	if instance == nil {
+		panic("Database not initialized")
+	}
 	return instance
 }
