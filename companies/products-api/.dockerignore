@@ -1,0 +1,10 @@
+.vscode/
+
+/.dockerignore
+/.gitignore
+/.golangci.yaml
+/app
+/Dockerfile
+/Makefile
+
+*.md
